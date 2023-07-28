@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class puzzle {
     public static void main(String []args){
-        
+        /*
         Scanner scan = new Scanner(System.in);
 
         int Num = scan.nextInt();
@@ -16,6 +16,15 @@ public class puzzle {
             System.out.printf("Digit %d: %d\n",count,ldigit);
         }
         scan.close();
+        */
+
+
+        Scanner scan = new Scanner(System.in);
+
+        int N = scan.nextInt();
+        for (int i = 1; i<=N;i++){
+            System.out.println(i);
+        }
 
     }
     
