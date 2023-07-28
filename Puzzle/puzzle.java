@@ -25,6 +25,7 @@ public class puzzle {
         for (int i = 1; i<=N;i++){
             System.out.println(i);
         }
+        scan.close();
 
     }
     
