@@ -62,6 +62,7 @@ public class patterns3 {
             System.out.println();
 
         }
+        scan.close();
         
 
     }
