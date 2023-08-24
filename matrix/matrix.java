@@ -67,4 +67,19 @@ public class matrix{
             // switcher++;
         }
     }
+    public ArrayList<ArrayList<Integer>> solve(ArrayList<ArrayList<Integer>> A) {    
+        ArrayList<ArrayList<Integer>> newArr = new ArrayList<ArrayList<Integer>>();   
+        //ArrayList<Integer> newArrNum = new ArrayList<Integer> ();
+
+        for(int i = 0; i<A.size();i++){
+            for(int j = 0; j<A.get(i).size();j++){
+                if((A.get(i).get(j))%2 == 0){
+                    newArrNum.add(A.get(i).get(j));
+                }
+            }
+            newArr.add(newArrNum);
+        }
+        return newArr;
+        
+   }
 }
