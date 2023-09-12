@@ -1,20 +1,30 @@
 package queries;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class queries{
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         int A[] = {4,4,4,4,4,4,4,4};
+        int B[] = {4,2,4,5,6,4,4,5};
+
+        //printCommonElement(A, B);
         // int Qrr = scan.nextInt();
         // System.out.println(findQrr(A,Qrr));
         scan.close();
 
-        ArrayList<Integer> N = unique(A);
+         HashSet<Integer> N = unique(B);
 
-        for (int i = 0; i < N.size();i++){
-            System.out.println(N.get(i));
+        System.out.println(N);
+    }
+
+    public static void printCommonElement(int[] A, int[] B) {
+        for (int i = 0; i < A.length;i++){
+            if (findQrr(A,B[i])){
+                System.out.println(B[i]);
+            }
         }
     }
 
@@ -28,17 +38,10 @@ public class queries{
         return false;
     }
 
-    public static ArrayList<Integer> unique(int[]A){
-        ArrayList<Integer> newA = new ArrayList<Integer>();
+    public static HashSet<Integer> unique(int[]A){
+        HashSet<Integer> newA = new HashSet<Integer>();
         for (int i = 0; i < A.length;i++){
-            boolean Present = false;
-            for (int j = 0; j < i;j++){
-                if(A[i] == A[j]){
-                    Present = true;
-                    break;
-                }
-            }
-            if (!Present){
+            if (!newA.contains(A[i])){
                 newA.add(A[i]);
             }
         }
