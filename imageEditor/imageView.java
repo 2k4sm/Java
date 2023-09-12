@@ -14,10 +14,10 @@ public class imageView {
             BufferedImage inputImage = ImageIO.read(fileinput);
             //printPixelValues(inputImage);
             //BufferedImage grayScale = convertToGrayScale(inputImage);
-            BufferedImage fullBright = fullBrightness(inputImage);
+            BufferedImage mirror = monochromeImage(inputImage);
 
-            File fullBrightimg = new File("fullBrightimg.jpg");
-            ImageIO.write(fullBright,"jpg", fullBrightimg);
+            File mirrorImg = new File("mirrorImg1.jpg");
+            ImageIO.write(mirror,"jpg", mirrorImg);
 
             
         } catch (IOException e) {
@@ -51,28 +51,91 @@ public class imageView {
         return outputImage;
 
     }
-    public static BufferedImage fullBrightness(BufferedImage image,int increase){
+    public static BufferedImage Brightness(BufferedImage image,int brightPercent){
         int height = image.getHeight();
         int width = image.getWidth();
+        BufferedImage outputImage = new BufferedImage(width, height,BufferedImage.TYPE_3BYTE_BGR);
 
-        BufferedImage outimage = new BufferedImage(width, height,BufferedImage.TYPE_3BYTE_BGR);
-
-        for (int i = 0; i<height;i++){
+        for(int i = 0; i<height;i++){
             for(int j = 0; j<width;j++){
-                Color pixel = new Color(image.getRGB(j, i));
-                int red = pixel.getRed();                
-                int green = pixel.getGreen();
-                int blue = pixel.getBlue();
+                int rgb = image.getRGB(j,i);
+                
+                Color color = new Color(rgb);
+                int red = color.getRed() + (int)Math.ceil(color.getRed()*(brightPercent/100.0));
+                int green=color.getGreen() + (int)Math.ceil(color.getGreen()*(int)Math.ceil(brightPercent/100.0));
+                int blue=color.getBlue() + (int)Math.ceil(color.getBlue()*(int)Math.ceil(brightPercent/100.0));
+                
+                if (red > 255){
+                    red = 255;
+                }
+                 if (green > 255){
+                    green = 255;
+                }
+                 if (blue > 255){
+                    blue = 255;
+                }
+                int bgr = new Color(red,green,blue).getRGB();
 
-                red += red*increase/100;
-                green += green*increase/100;
-                blue += blue*increase/100;
-                outimage.setRGB(j, i,);
+                outputImage.setRGB(j,i, bgr);
             }
         }
+        return outputImage;
 
+    }
+    public static BufferedImage monochromeImage(BufferedImage image){
+        int height = image.getHeight();
+        int width = image.getWidth();
+        BufferedImage outputImage = new BufferedImage(width, height,BufferedImage.TYPE_3BYTE_BGR);
+
+        for(int i = 0; i<height;i++){
+            for(int j = 0; j<width;j++){
+                int rgb = image.getRGB(j,i);
+                
+                Color color = new Color(rgb);
+                int red = color.getRed();
+                int green=color.getGreen();
+                int blue=color.getBlue();
+                
+                int avgCol = (int)Math.ceil((red+green+blue)/3.0);
+
+                int bgr = new Color(avgCol,avgCol,avgCol).getRGB();
+                
+                outputImage.setRGB(j,i, bgr);
+            }
+        }
+        return outputImage;
+    }
+    public static BufferedImage mirrorImage(BufferedImage image){
+        int imageHeight = image.getHeight();
+        int imageWidth = image.getWidth();
+        BufferedImage outimage = new BufferedImage(imageWidth,imageHeight,BufferedImage.TYPE_3BYTE_BGR);
+        for(int i = 0; i<imageHeight;i++){
+            for(int j = 0; j<imageWidth/2;j++){
+                outimage.setRGB(imageWidth-1-j,i,image.getRGB(j,i));                
+                outimage.setRGB(j,i,image.getRGB(imageWidth-1-j,i));
+            }
+        }
         return outimage;
 
+
+
+    }
+    public static BufferedImage rotateImage(BufferedImage image){
+        int imageHeight = image.getHeight();
+        int imageWidth = image.getWidth();
+
+        BufferedImage outImage = new BufferedImage(imageHeight,imageWidth,BufferedImage.TYPE_3BYTE_BGR);
+
+        for(int i = 0; i<imageWidth;i++){
+            for(int j = 0; j<imageHeight;j++){
+                
+                outImage.setRGB(j, i,image.getRGB(i,j));
+                
+            }
+        }
+        outImage = mirrorImage(outImage);
+
+        return outImage;
     }
 
 }
